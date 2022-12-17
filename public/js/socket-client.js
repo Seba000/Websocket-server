@@ -30,5 +30,8 @@ btnEnviar.addEventListener('click', () => {
         id: '1231qasd',
         fecha: new Date().getTime()
     }
-    socket.emit('enviar-mensaje', payload);
+    //el tercer argumento es el callback = "(id)"
+    socket.emit('enviar-mensaje', payload, (id) => {
+        console.log('desde el server', id)
+    } );
 });

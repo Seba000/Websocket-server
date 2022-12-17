@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { socketController } = require('../sockets/controller');
 
 
 
@@ -14,7 +15,6 @@ class Server {
 
         this.paths = {}
 
-
         // Middlewares
         this.middlewares();
 
@@ -27,45 +27,24 @@ class Server {
 
 
     middlewares() {
-
         // CORS
         this.app.use( cors() );
-
         // Directorio Público
         this.app.use( express.static('public') );
-
-
     }
 
-    routes() {
-        
+    routes() {      
         //this.app.use( this.paths.auth, require('../routes/auth'));
     }
 
     sockets(){
-
-        this.io.on('connection', socket => {
-            
-
-            socket.on('disconnect', () => {
-                
-            })
-
-            socket.on('enviar-mensaje',(payload) => {
-                //enviar msg a todos los clientes conectados
-                this.io.emit('enviar-mensaje', payload);
-            })
-
-        })
-
+        this.io.on('connection',socketController)
     }
 
     listen() {
         this.server.listen( this.port, () => {
-            
         });
     }
-
 }
 
 

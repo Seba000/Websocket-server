@@ -8,19 +8,20 @@ const btnEnviar  = document.querySelector('#btnEnviar');
 const socket = io();
 
 socket.on('connect', ()=> {
-    
-
     lblOffline.style.display = 'none';
     lblOnline.style.display = '';
 });
 
 socket.on('disconnect', () => {
-    
-
     lblOnline.style.display = 'none';
     lblOffline.style.display = '';
-
 });
+
+//escuchar/recibir el mensaje enviado desde el servidor
+socket.on('enviar-mensaje', (payload) => {
+    console.log(payload)
+});
+
 
 btnEnviar.addEventListener('click', () => {
     const mensaje = txtMensaje.value;
@@ -30,5 +31,4 @@ btnEnviar.addEventListener('click', () => {
         fecha: new Date().getTime()
     }
     socket.emit('enviar-mensaje', payload);
-
 });
